@@ -12,14 +12,14 @@ void get(struct employee *emp){
   printf("Enter employee salary\n");
   scanf("%d",&emp->salary);
   }
-void read(FILE *fp){
+void read(FILE *fp){    //reads contents from the file and prints them
   struct employee e;
   while((fread(&e,sizeof(e),1,fp))==1){
     printf("\nEmployee name: %10s\nEmployee ID: %d\t\tEmployee Salary: %d\n\n",e.name,e.id,e.salary);
   }
   fclose(fp);
 }
-void search(FILE *fp,int id){
+void search(FILE *fp,int id){     //saves one chunk of data into object 'e' using fread, checks if the ID matches, prints if matched
   struct employee e;
   while((fread(&e,sizeof(e),1,fp))==1){
     if(e.id==id){
@@ -32,12 +32,11 @@ void search(FILE *fp,int id){
   }
   fclose(fp);
 }
-void mod(FILE *fp){
-  int choice;
+void mod(FILE *fp){   //creates a temporary file, copies everything except the interested chunk of data. asks for modifications, writes them 
+  int choice;          //and makes the temporary file into the new permanant file
   struct employee emp;
   printf("Enter the ID of the entry you want to modify\n");
   scanf("%d",&choice);
-//  fp=fopen("pract.dat","a+b");
   FILE *ftemp;
   while((fread(&emp,sizeof(emp),1,fp))==1){
     ftemp=fopen("temp.dat","ab");
@@ -57,7 +56,7 @@ void mod(FILE *fp){
   system("rm pract.dat");
   system("mv temp.dat pract.dat");
 }
-void del(FILE *fp, int id){
+void del(FILE *fp, int id){  //similar to 'mod', here we just skip writing the interested chunk into the tmep file, ultimately deleting it.
   struct employee emp;
   FILE *ftemp;
   while((fread(&emp,sizeof(emp),1,fp))==1){
